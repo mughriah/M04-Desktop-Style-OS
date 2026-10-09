@@ -1,0 +1,10 @@
+﻿  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
+  imgui.cpp
+  imgui_draw.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  CSOPESY-M04.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  CSOPESY-M04.vcxproj -> C:\Users\maryf\OneDrive\Documents\Visual Studio 2026\CSOPESY-M04\CSOPESY-M04\x64\Debug\CSOPESY-M04.exe

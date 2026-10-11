@@ -13,7 +13,7 @@ October 9, 2026
 C++
 
 ## Entry File
-`CSOPESY-M04.cpp` - The `main()` function is located in `CSOPESY-M04.cpp`.
+The `main()` function is located in `CSOPESY-M04.cpp`.
 
 ## Project Overview
 The CSOPESY Desktop-Style OS Emulator is a simulated desktop environment developed using C++, GLFW, OpenGL, and Dear ImGui. It demonstrates a basic desktop interface with a boot screen, wallpaper, taskbar, clock, and application windows.

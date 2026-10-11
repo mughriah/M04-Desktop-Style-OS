@@ -119,17 +119,31 @@ static void drawTaskbar()
 
     if (ImGui::Begin("Taskbar", nullptr, flags))
     {
-        // TASK MANAGER button on the bottom-left
-        if (ImGui::Button("TASK MANAGER", ImVec2(125, 36)))
+        // Button 1: Opens File Explorer
+        if (ImGui::Button("Files", ImVec2(70, 36)))
+        {
+            showFiles = !showFiles;
+        }
+
+        ImGui::SameLine();
+
+        // Button 2: Opens Applications/Gallery Window
+        if (ImGui::Button("Apps", ImVec2(70, 36)))
+        {
+            showGallery = !showGallery;
+        }
+
+        ImGui::SameLine();
+
+        // Button 3: Opens Task Manager
+        if (ImGui::Button("Task Manager", ImVec2(110, 36)))
         {
             showTaskManager = !showTaskManager;
         }
 
         // Move the PWR button to the bottom-right
         float powerButtonWidth = 55.0f;
-
         ImGui::SameLine();
-
         ImGui::SetCursorPosX(
             ImGui::GetWindowWidth() -
             powerButtonWidth -

@@ -77,12 +77,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\maryf\Downloads\imgui-master\imgui-master;C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\include;C:\Users\maryf\Downloads\imgui-master\imgui-master\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\imgui;$(SolutionDir)vendor\imgui\backends;$(SolutionDir)vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\lib-vc2026\glfw3.lib;"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.26100.0\um\x64\OpenGL32.Lib";%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\glfw\lib-vc2026;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -97,12 +97,12 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\maryf\Downloads\imgui-master\imgui-master;C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\include;C:\Users\maryf\Downloads\imgui-master\imgui-master\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\imgui;$(SolutionDir)vendor\imgui\backends;$(SolutionDir)vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\lib-vc2026\glfw3.lib;"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.26100.0\um\x64\OpenGL32.Lib";%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\glfw\lib-vc2026;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -115,12 +115,12 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\maryf\Downloads\imgui-master\imgui-master;C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\include;C:\Users\maryf\Downloads\imgui-master\imgui-master\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\imgui;$(SolutionDir)vendor\imgui\backends;$(SolutionDir)vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\glfw\lib-vc2026;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
@@ -136,12 +136,12 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\maryf\Downloads\imgui-master\imgui-master;C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\include;C:\Users\maryf\Downloads\imgui-master\imgui-master\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)vendor\imgui;$(SolutionDir)vendor\imgui\backends;$(SolutionDir)vendor\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\maryf\Downloads\glfw-3.5.1.bin.WIN64\glfw-3.5.1.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)vendor\glfw\lib-vc2026;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
@@ -149,12 +149,12 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui_draw.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui_tables.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui_widgets.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CSOPESY-M04.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

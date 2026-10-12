@@ -11,13 +11,21 @@ ENTRY FILE
 CSOPESY-M04/CSOPESY-M04/CSOPESY-M04.cpp contains main().
 Solution: CSOPESY-M04/CSOPESY-M04.slnx
 
-REQUIREMENTS
+RUN THE INCLUDED EXECUTABLE
+1. Download and extract the repository ZIP, or pull the latest main branch
+   in GitHub Desktop.
+2. Open the CSOPESY-M04/x64/Debug folder inside the repository.
+3. Double-click CSOPESY-M04.exe to launch the emulator.
+4. Wait for the boot screen, then use the taskbar buttons to open the apps.
+5. Click PWR to close the emulator.
+
+BUILD FROM SOURCE - REQUIREMENTS
 Windows, Visual Studio 2026 with Desktop development with C++, Dear ImGui,
 and a GLFW library built for x64 and the compatible Visual C++ toolset.
 The project uses the v145 toolset and C++20.
 The configuration verified on the development computer is Debug | x64.
 
-SETUP
+BUILD FROM SOURCE - SETUP
 1. Open CSOPESY-M04/CSOPESY-M04.slnx in Visual Studio.
 2. Select Debug and x64 in the toolbar.
 3. The project currently references developers' local library folders.

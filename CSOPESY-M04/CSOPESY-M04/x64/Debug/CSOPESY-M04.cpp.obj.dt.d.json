@@ -1,11 +1,11 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\maryf\\onedrive\\documents\\visual studio 2026\\csopesy-m04\\csopesy-m04\\csopesy-m04\\csopesy-m04.cpp",
+        "Source": "c:\\users\\whamb\\documents\\dlsu\\csopesy\\m04-desktop-style-os\\csopesy-m04\\csopesy-m04\\csopesy-m04.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\maryf\\downloads\\imgui-master\\imgui-master\\imgui.h",
-            "c:\\users\\maryf\\downloads\\imgui-master\\imgui-master\\imconfig.h",
+            "c:\\users\\whamb\\documents\\dlsu\\csopesy\\m04-desktop-style-os\\csopesy-m04\\vendor\\imgui\\imgui.h",
+            "c:\\users\\whamb\\documents\\dlsu\\csopesy\\m04-desktop-style-os\\csopesy-m04\\vendor\\imgui\\imconfig.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\float.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\corecrt.h",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\vcruntime.h",
@@ -21,9 +21,9 @@
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\vcruntime_string.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\corecrt_wstring.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\assert.h",
-            "c:\\users\\maryf\\downloads\\imgui-master\\imgui-master\\backends\\imgui_impl_glfw.h",
-            "c:\\users\\maryf\\downloads\\imgui-master\\imgui-master\\backends\\imgui_impl_opengl3.h",
-            "c:\\users\\maryf\\downloads\\glfw-3.5.1.bin.win64\\glfw-3.5.1.bin.win64\\include\\glfw\\glfw3.h",
+            "c:\\users\\whamb\\documents\\dlsu\\csopesy\\m04-desktop-style-os\\csopesy-m04\\vendor\\imgui\\imgui_impl_glfw.h",
+            "c:\\users\\whamb\\documents\\dlsu\\csopesy\\m04-desktop-style-os\\csopesy-m04\\vendor\\imgui\\imgui_impl_opengl3.h",
+            "c:\\users\\whamb\\documents\\dlsu\\csopesy\\m04-desktop-style-os\\csopesy-m04\\vendor\\glfw\\include\\glfw\\glfw3.h",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\stdint.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\um\\gl\\gl.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\shared\\winapifamily.h",
@@ -107,7 +107,13 @@
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\tuple",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\xpolymorphic_allocator.h",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\cctype",
-            "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\ctype.h"
+            "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\ctype.h",
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\algorithm",
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\__msvc_heap_algorithms.hpp",
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\__msvc_int128.hpp",
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\__msvc_bit_utils.hpp",
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\__msvc_minmax.hpp",
+            "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\cmath"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

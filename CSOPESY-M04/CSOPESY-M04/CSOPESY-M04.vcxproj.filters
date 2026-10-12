@@ -18,22 +18,22 @@
     <ClCompile Include="CSOPESY-M04.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui.cpp">
+    <ClCompile Include="..\vendor\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui_draw.cpp">
+    <ClCompile Include="..\vendor\imgui\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui_tables.cpp">
+    <ClCompile Include="..\vendor\imgui\imgui_impl_glfw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\imgui_widgets.cpp">
+    <ClCompile Include="..\vendor\imgui\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\backends\imgui_impl_opengl3.cpp">
+    <ClCompile Include="..\vendor\imgui\imgui_tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\Downloads\imgui-master\imgui-master\backends\imgui_impl_glfw.cpp">
+    <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

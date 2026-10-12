@@ -1,6 +1,6 @@
 // CSOPESY - M04
 // DEVELOPERS: Abenojar, Caya, Diamante, Guiller
-// VERSION DATE: October 9, 2026
+// VERSION DATE: October 12, 2026
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -11,26 +11,30 @@
 #include <string>
 #include <cstdio>
 
-static bool showFiles = false;
-static bool showGallery = false;
-static bool showTaskManager = false;
-static bool running = true;
-static double bootStart = 0.0;
+static bool showFiles = false;       // Files window state
+static bool showGallery = false;     // Gallery window state
+static bool showTaskManager = false; // Task Manager window state
+static bool running = true;          // Controls the main program loop
+static double bootStart = 0.0;       // Stores the startup timestamp
+
 
 // Get the current system date and time
 static std::string getClock()
 {
-    std::time_t now = std::time(nullptr);
-    std::tm localTime{};
+	std::time_t now = std::time(nullptr);   // get raw time
+	std::tm localTime{};                    // create a tm structure to hold local time
 
+// if statement to check for Windows platform and
+// use the appropriate function to convert raw time to local time
 #ifdef _WIN32
     localtime_s(&localTime, &now);
 #else
     localtime_r(&now, &localTime);
 #endif
 
-    char buffer[64];
+	char buffer[64];    // buffer to hold the formatted date and time string
 
+	// format the local time into a human-readable string
     std::strftime(
         buffer,
         sizeof(buffer),
@@ -44,38 +48,40 @@ static std::string getClock()
 // Draw desktop wallpaper
 static void drawDesktopBackground()
 {
-    ImDrawList* bg = ImGui::GetBackgroundDrawList();
-    ImVec2 size = ImGui::GetIO().DisplaySize;
+	ImDrawList* bg = ImGui::GetBackgroundDrawList();    // get background draw list for rendering
+	ImVec2 size = ImGui::GetIO().DisplaySize;           // get window size for rendering
 
     // Sky gradient
-    bg->AddRectFilledMultiColor(
+	bg->AddRectFilledMultiColor(        // draw a rectangle with a gradient fill
         ImVec2(0, 0),
         size,
-        IM_COL32(35, 110, 190, 255),
-        IM_COL32(80, 170, 235, 255),
-        IM_COL32(20, 65, 110, 255),
-        IM_COL32(25, 100, 160, 255)
+		IM_COL32(35, 110, 190, 255),    // Top color (sky blue)
+		IM_COL32(80, 170, 235, 255),    // Bottom color (sky light blue)
+		IM_COL32(20, 65, 110, 255),     // Bottom color (sky dark blue)
+		IM_COL32(25, 100, 160, 255)     // Top color (sky medium blue)
     );
 
     // Stylized green hills
-    bg->AddBezierCubic(
-        ImVec2(0, size.y * 0.65f),
-        ImVec2(size.x * 0.28f, size.y * 0.48f),
-        ImVec2(size.x * 0.62f, size.y * 0.83f),
-        ImVec2(size.x, size.y * 0.60f),
-        IM_COL32(90, 175, 70, 255),
-        8.0f
+	bg->AddBezierCubic(                             // draw a cubic Bezier curve to create a hill shape
+		ImVec2(0, size.y * 0.65f),                  // starting point of the curve
+		ImVec2(size.x * 0.28f, size.y * 0.48f),     // first control point of the curve
+		ImVec2(size.x * 0.62f, size.y * 0.83f),     // second control point of the curve
+		ImVec2(size.x, size.y * 0.60f),             // ending point of the curve
+		IM_COL32(90, 175, 70, 255),                 // color of the hill (green)
+        8.0f        
     );
 
+	// Draw the base of the hills
     bg->AddRectFilled(
         ImVec2(0, size.y * 0.72f),
         ImVec2(size.x, size.y),
         IM_COL32(30, 105, 45, 255)
     );
 
+	//  Draw the OS version text on the desktop
     bg->AddText(
-        ImVec2(18, 18),
-        IM_COL32(20, 255, 100, 255),
+		ImVec2(18, 18),                 // Position of the text
+		IM_COL32(20, 255, 100, 255),    // Text color (green)
         "CSOPESY OS v1.0"
     );
 }
@@ -87,49 +93,60 @@ static void drawTaskbar()
     const float barHeight = 56.0f;
     const float sidePadding = 10.0f;
 
+	// lock the taskbar to the bottom of the window and set its size
     ImGui::SetNextWindowPos(
         ImVec2(0, io.DisplaySize.y - barHeight),
         ImGuiCond_Always
     );
 
+	// set the taskbar size to match the width of the window and a fixed height
     ImGui::SetNextWindowSize(
         ImVec2(io.DisplaySize.x, barHeight),
         ImGuiCond_Always
     );
 
-    ImGui::PushStyleVar(
-        ImGuiStyleVar_WindowRounding, 0.0f
-    );
+	// remove window rounding and set padding for the taskbar
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(sidePadding, 8.0f));
 
-    ImGui::PushStyleVar(
-        ImGuiStyleVar_WindowPadding,
-        ImVec2(sidePadding, 8.0f)
-    );
+	// set the background color of the taskbar to a semi-transparent dark color: dark blue
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(20, 20, 32, 235));
 
-    ImGui::PushStyleColor(
-        ImGuiCol_WindowBg,
-        IM_COL32(20, 20, 32, 235)
-    );
-
+	// combine flags to create a taskbar window without title bar, resizing, moving, or scrollbars
     ImGuiWindowFlags flags =
         ImGuiWindowFlags_NoTitleBar |
         ImGuiWindowFlags_NoResize |
         ImGuiWindowFlags_NoMove |
         ImGuiWindowFlags_NoScrollbar;
-
+    
+	// handle the taskbar window and its buttons
     if (ImGui::Begin("Taskbar", nullptr, flags))
     {
-        // TASK MANAGER button on the bottom-left
-        if (ImGui::Button("TASK MANAGER", ImVec2(125, 36)))
+        // Button 1: Opens Applications/Gallery Window
+        if (ImGui::Button("Apps", ImVec2(70, 36)))
+        {
+            showGallery = !showGallery;
+        }
+
+        ImGui::SameLine();
+        
+        // Button 2: Opens File Explorer
+        if (ImGui::Button("Files", ImVec2(70, 36)))
+        {
+            showFiles = !showFiles;
+        }
+
+        ImGui::SameLine();
+
+        // Button 3: Opens Task Manager
+        if (ImGui::Button("Task Manager", ImVec2(110, 36)))
         {
             showTaskManager = !showTaskManager;
         }
 
         // Move the PWR button to the bottom-right
         float powerButtonWidth = 55.0f;
-
         ImGui::SameLine();
-
         ImGui::SetCursorPosX(
             ImGui::GetWindowWidth() -
             powerButtonWidth -
@@ -144,6 +161,7 @@ static void drawTaskbar()
 
     ImGui::End();
 
+	// pop the style color and variables to restore previous settings
     ImGui::PopStyleColor();
     ImGui::PopStyleVar(2);
 }
@@ -161,17 +179,20 @@ static void drawFileWindow()
 
     if (ImGui::Begin("CSOPESY File Explorer", &showFiles))
     {
+		// draw header and separator for the file explorer window
         ImGui::Text("Quick Access");
         ImGui::Separator();
 
+		// draw bullet points for the quick access items in the file explorer
         ImGui::BulletText("Desktop");
         ImGui::BulletText("Documents");
         ImGui::BulletText("Downloads");
         ImGui::BulletText("Pictures");
         ImGui::BulletText("This PC");
 
-        ImGui::Spacing();
+		ImGui::Spacing();   // add vertical spacing between the quick access items and the placeholder text
 
+		// dimmed text to indicate that this is a placeholder for the file explorer interface
         ImGui::TextDisabled(
             "Placeholder file explorer - sample interface."
         );

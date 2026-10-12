@@ -1,0 +1,9 @@
+.vs/
+*.vcxproj.user
+*.suo
+*.sln.docstates
+
+/CSOPESY-M04/**/[Dd]ebug/
+/CSOPESY-M04/**/[Rr]elease/
+
+imgui.ini

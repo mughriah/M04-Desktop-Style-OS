@@ -22,11 +22,12 @@ The CSOPESY Desktop-Style OS Emulator is a simulated desktop environment develop
 ### Boot Screen
 Displays the CSOPESY title, developer names, version date, and loading message for approximately three seconds.
 ### Desktop Wallpaper
-Displays a blue gradient sky, green hills, and the CSOPESY OS v1.0 label.
+Displays a blue gradient sky, a glowing sun, two filled green hills, small flowers, and the CSOPESY OS v1.0 label. The wallpaper uses ImGui drawing commands without external image files.
 ### Live Clock
 Shows the current system date and time at the top-right corner.
 ### Taskbar
 Displays clickable Apps, Files, and Task Manager icons at the bottom of the desktop, plus a separate PWR button. A blue underline shows which application windows are open.
+Hover over a taskbar button for a short explanation. The interface uses a larger built-in font, and application windows start in staggered positions each launch while remaining movable and resizable.
 ### Task Manager
 Displays sample process names, CPU usage, and memory usage.
 ### File Explorer

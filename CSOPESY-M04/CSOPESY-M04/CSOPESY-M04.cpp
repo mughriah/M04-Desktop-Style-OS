@@ -10,6 +10,8 @@
 #include <ctime>
 #include <string>
 #include <cstdio>
+#include <algorithm>
+#include <cmath>
 
 static bool showFiles = false;       // Files window state
 static bool showGallery = false;     // Gallery window state
@@ -45,45 +47,86 @@ static std::string getClock()
     return buffer;
 }
 
-// Draw desktop wallpaper
+// Fill a curved hill down to the bottom of the desktop.
+static void drawHill(ImDrawList* draw, ImVec2 size,
+    float start, float control1, float control2, float end, ImU32 color)
+{
+    draw->PathLineTo(ImVec2(0, size.y * start));
+    draw->PathBezierCubicCurveTo(
+        ImVec2(size.x / 3.0f, size.y * control1),
+        ImVec2(size.x * 2.0f / 3.0f, size.y * control2),
+        ImVec2(size.x, size.y * end), 64);
+    draw->PathLineTo(size);
+    draw->PathLineTo(ImVec2(0, size.y));
+    draw->PathFillConcave(color);
+}
+
+// Small flowers use only stems, leaves, and circular petals.
+static void drawFlower(ImDrawList* draw, ImVec2 center, float scale, ImU32 petals)
+{
+    draw->AddLine(center, ImVec2(center.x, center.y + 25 * scale),
+        IM_COL32(35, 100, 62, 255), 2.0f * scale);
+    draw->AddTriangleFilled(ImVec2(center.x, center.y + 17 * scale),
+        ImVec2(center.x - 10 * scale, center.y + 8 * scale),
+        ImVec2(center.x - 8 * scale, center.y + 17 * scale),
+        IM_COL32(65, 139, 67, 255));
+    for (int petal = 0; petal < 5; ++petal)
+    {
+        float angle = petal * 6.2831853f / 5.0f - 1.5707963f;
+        draw->AddCircleFilled(ImVec2(center.x + std::cos(angle) * 6 * scale,
+            center.y + std::sin(angle) * 6 * scale), 4.5f * scale, petals);
+    }
+    draw->AddCircleFilled(center, 3.0f * scale, IM_COL32(245, 184, 62, 255));
+}
+
+// Draw the landscape first so every application remains above it.
 static void drawDesktopBackground()
 {
-	ImDrawList* bg = ImGui::GetBackgroundDrawList();    // get background draw list for rendering
-	ImVec2 size = ImGui::GetIO().DisplaySize;           // get window size for rendering
+    ImDrawList* bg = ImGui::GetBackgroundDrawList();
+    ImVec2 size = ImGui::GetIO().DisplaySize;
+    float scale = std::min(size.x / 1280.0f, size.y / 800.0f);
 
-    // Sky gradient
-	bg->AddRectFilledMultiColor(        // draw a rectangle with a gradient fill
-        ImVec2(0, 0),
-        size,
-		IM_COL32(35, 110, 190, 255),    // Top color (sky blue)
-		IM_COL32(80, 170, 235, 255),    // Bottom color (sky light blue)
-		IM_COL32(20, 65, 110, 255),     // Bottom color (sky dark blue)
-		IM_COL32(25, 100, 160, 255)     // Top color (sky medium blue)
-    );
+    // Corner colors run clockwise: upper-left, upper-right, lower-right, lower-left.
+    bg->AddRectFilledMultiColor(ImVec2(0, 0), size,
+        IM_COL32(55, 133, 197, 255), IM_COL32(96, 171, 218, 255),
+        IM_COL32(214, 236, 220, 255), IM_COL32(166, 214, 223, 255));
 
-    // Stylized green hills
-	bg->AddBezierCubic(                             // draw a cubic Bezier curve to create a hill shape
-		ImVec2(0, size.y * 0.65f),                  // starting point of the curve
-		ImVec2(size.x * 0.28f, size.y * 0.48f),     // first control point of the curve
-		ImVec2(size.x * 0.62f, size.y * 0.83f),     // second control point of the curve
-		ImVec2(size.x, size.y * 0.60f),             // ending point of the curve
-		IM_COL32(90, 175, 70, 255),                 // color of the hill (green)
-        8.0f        
-    );
+    // The sun stays below the clock; translucent circles soften its glow.
+    ImVec2 sun(size.x * 0.79f, size.y * 0.23f);
+    for (int ring = 6; ring > 0; --ring)
+        bg->AddCircleFilled(sun, (40.0f + ring * 7.0f) * scale,
+            IM_COL32(255, 224, 139, 10), 64);
+    bg->AddCircleFilled(sun, 40.0f * scale, IM_COL32(255, 222, 126, 255), 64);
+    bg->AddCircleFilled(ImVec2(sun.x - 4 * scale, sun.y - 5 * scale),
+        32.0f * scale, IM_COL32(255, 232, 155, 255), 64);
 
-	// Draw the base of the hills
-    bg->AddRectFilled(
-        ImVec2(0, size.y * 0.72f),
-        ImVec2(size.x, size.y),
-        IM_COL32(30, 105, 45, 255)
-    );
+    drawHill(bg, size, 0.66f, 0.30f, 0.83f, 0.56f, IM_COL32(137, 184, 111, 255));
+    drawHill(bg, size, 0.76f, 0.92f, 0.43f, 0.71f, IM_COL32(79, 147, 91, 255));
 
-	//  Draw the OS version text on the desktop
-    bg->AddText(
-		ImVec2(18, 18),                 // Position of the text
-		IM_COL32(20, 255, 100, 255),    // Text color (green)
-        "CSOPESY OS v1.0"
-    );
+    // Sparse flowers leave the center of the desktop uncluttered.
+    const float flowerX[] = { 0.045f, 0.082f, 0.12f, 0.88f, 0.923f, 0.96f };
+    const float flowerOffset[] = { 0, 18, -4, 9, -5, 20 };
+    const ImU32 flowerColors[] = {
+        IM_COL32(255, 188, 205, 255), IM_COL32(255, 243, 205, 255),
+        IM_COL32(255, 221, 104, 255)
+    };
+    for (int i = 0; i < 6; ++i)
+        drawFlower(bg, ImVec2(size.x * flowerX[i],
+            size.y - 96.0f - flowerOffset[i] * scale), scale, flowerColors[i % 3]);
+
+    bg->AddText(ImVec2(18, 18), IM_COL32(240, 250, 255, 255), "CSOPESY OS v1.0");
+}
+
+// Apply a staggered starting layout once per launch; users can still move/resize.
+static void setAppWindowLayout(ImVec2 position, ImVec2 desiredSize)
+{
+    ImVec2 screen = ImGui::GetIO().DisplaySize;
+    ImVec2 size(std::min(desiredSize.x, std::max(240.0f, screen.x - 32.0f)),
+        std::min(desiredSize.y, std::max(180.0f, screen.y - 140.0f)));
+    position.x = std::max(16.0f, std::min(position.x, screen.x - size.x - 16.0f));
+    position.y = std::max(64.0f, std::min(position.y, screen.y - size.y - 72.0f));
+    ImGui::SetNextWindowPos(position, ImGuiCond_Once);
+    ImGui::SetNextWindowSize(size, ImGuiCond_Once);
 }
 
 enum class TaskbarIcon { Apps, Files, TaskManager };
@@ -150,6 +193,13 @@ static bool drawTaskbarButton(const char* label, TaskbarIcon icon, bool isOpen)
             IM_COL32(80, 210, 255, 255), 1.5f);
     }
 
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
+    {
+        const char* description = icon == TaskbarIcon::Apps ? "Applications and shortcuts" :
+            icon == TaskbarIcon::Files ? "Sample folders in File Explorer" :
+            "Sample processes, CPU and memory usage";
+        ImGui::SetTooltip("%s\nClick to %s.", description, isOpen ? "close" : "open");
+    }
     return clicked;
 }
 
@@ -224,6 +274,8 @@ static void drawTaskbar()
         {
             running = false;
         }
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
+            ImGui::SetTooltip("Shut down the desktop emulator.");
     }
 
     ImGui::End();
@@ -239,10 +291,7 @@ static void drawFileWindow()
     if (!showFiles)
         return;
 
-    ImGui::SetNextWindowSize(
-        ImVec2(440, 300),
-        ImGuiCond_FirstUseEver
-    );
+    setAppWindowLayout(ImVec2(380, 150), ImVec2(480, 320));
 
     if (ImGui::Begin("CSOPESY File Explorer", &showFiles))
     {
@@ -274,10 +323,7 @@ static void drawGalleryWindow()
     if (!showGallery)
         return;
 
-    ImGui::SetNextWindowSize(
-        ImVec2(430, 280),
-        ImGuiCond_FirstUseEver
-    );
+    setAppWindowLayout(ImVec2(40, 80), ImVec2(480, 300));
 
     if (ImGui::Begin("CSOPESY Applications", &showGallery))
     {
@@ -311,10 +357,7 @@ static void drawTaskManager()
     if (!showTaskManager)
         return;
 
-    ImGui::SetNextWindowSize(
-        ImVec2(540, 330),
-        ImGuiCond_FirstUseEver
-    );
+    setAppWindowLayout(ImVec2(690, 260), ImVec2(560, 340));
 
     if (ImGui::Begin("Task Manager", &showTaskManager))
     {
@@ -458,7 +501,7 @@ static void drawBootScreen()
 
         // Center the version date
         const char* versionDate =
-            "Version Date: October 9, 2026";
+            "Version Date: October 12, 2026";
 
         ImGui::SetCursorPosX(
             leftPadding +
@@ -560,6 +603,11 @@ int main()
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+    // Use the built-in font at a readable size without an external font file.
+    ImFontConfig fontConfig;
+    fontConfig.SizePixels = 18.0f;
+    io.Fonts->AddFontDefault(&fontConfig);
 
     ImGui::StyleColorsDark();
 

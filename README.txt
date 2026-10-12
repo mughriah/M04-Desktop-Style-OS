@@ -1,4 +1,5 @@
 CSOPESY M04 - Desktop-Style OS Mockup
+Version date: October 12, 2026
 
 DEVELOPERS
 Abenojar, Fred
@@ -42,6 +43,10 @@ SETUP
 
 HOW TO USE
 - Wait for the approximately three-second boot screen to finish.
+- The landscape wallpaper has a gradient sky, sun, filled hills, and flowers.
+- Application windows start in staggered positions each launch; you can still
+  move and resize them. The interface uses a larger built-in font.
+- Hover over taskbar buttons to see a short explanation.
 - Apps opens an applications placeholder with shortcuts to the other windows.
 - Files opens a file explorer placeholder showing sample folder names.
 - Task Manager opens a table of dummy processes, CPU usage, and memory usage.

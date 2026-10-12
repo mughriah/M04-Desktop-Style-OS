@@ -7,7 +7,7 @@
 - Guiller, Gerylyn
 
 ## Version Date:
-October 9, 2026
+October 12, 2026
 
 ## Programming Language
 C++
@@ -26,7 +26,7 @@ Displays a blue gradient sky, green hills, and the CSOPESY OS v1.0 label.
 ### Live Clock
 Shows the current system date and time at the top-right corner.
 ### Taskbar
-Displays the Task Manager and PWR buttons at the bottom of the desktop.
+Displays clickable Apps, Files, and Task Manager icons at the bottom of the desktop, plus a separate PWR button. A blue underline shows which application windows are open.
 ### Task Manager
 Displays sample process names, CPU usage, and memory usage.
 ### File Explorer
@@ -47,10 +47,25 @@ Closes the emulator when clicked.
 ## How to Run
 
 ### Step 1: Open the Project
-Open the project in Visual Studio 2026.
+Open `CSOPESY-M04/CSOPESY-M04.slnx` in Visual Studio 2026 with the **Desktop development with C++** workload. Select **Debug** and **x64**.
 ### Step 2: Configure the Source Files
 Ensure `CSOPESY-M04.cpp`, the Dear ImGui source files, and the required GLFW files are included or configured in the project.
 ### Step 3: Configure the Libraries
 Set the C++ include directories and library directories in the project properties. Link the required GLFW and OpenGL libraries.
 ### Step 4: Build the Project
 Select **Build > Build Solution**
+
+### Step 5: Run and Use the Emulator
+Press **F5** or click **Local Windows Debugger**. After the three-second boot screen:
+- Click **Apps** to open the applications placeholder.
+- Click **Files** to open the file explorer placeholder.
+- Click **Task Manager** to view dummy process, CPU, and memory values.
+- Click an application's taskbar button again, or its window's **X**, to close that window. Its blue underline disappears.
+- Click **PWR** to exit the emulator.
+
+The file explorer does not perform real file operations, and Task Manager does not read actual system statistics.
+
+### Setup on Another Computer
+The project currently references local Dear ImGui and GLFW folders. A new checkout may need its include directories, library directory, and ImGui source references configured for that computer. The tested configuration is **Debug | x64**.
+
+See [README.txt](README.txt) for the complete source-submission setup instructions and entry-file path.

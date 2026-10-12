@@ -86,6 +86,73 @@ static void drawDesktopBackground()
     );
 }
 
+enum class TaskbarIcon { Apps, Files, TaskManager };
+
+// Keep normal ImGui button behavior, with a small drawn icon beside the label.
+static bool drawTaskbarButton(const char* label, TaskbarIcon icon, bool isOpen)
+{
+    const float iconSize = 16.0f;
+    const float padding = 10.0f;
+    const float gap = 8.0f;
+    const float height = 36.0f;
+    const float width = padding * 2.0f + iconSize + gap + ImGui::CalcTextSize(label).x;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,
+        ImVec2(padding, ImGui::GetStyle().FramePadding.y));
+    ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(1.0f, 0.5f));
+    bool clicked = ImGui::Button(label, ImVec2(width, height));
+    ImGui::PopStyleVar(2);
+
+    ImDrawList* draw = ImGui::GetWindowDrawList();
+    ImVec2 origin = ImGui::GetItemRectMin();
+    origin.x += padding;
+    origin.y += (height - iconSize) * 0.5f;
+    const ImU32 color = ImGui::GetColorU32(ImGuiCol_Text);
+
+    switch (icon)
+    {
+    case TaskbarIcon::Apps:
+        // Four tiles form the applications grid.
+        for (int row = 0; row < 2; ++row)
+            for (int column = 0; column < 2; ++column)
+            {
+                ImVec2 tile(origin.x + column * 10.0f, origin.y + row * 10.0f);
+                draw->AddRectFilled(tile, ImVec2(tile.x + 6, tile.y + 6), color, 1.0f);
+            }
+        break;
+    case TaskbarIcon::Files:
+        // A raised tab and rectangular body form the folder.
+        draw->AddRectFilled(ImVec2(origin.x, origin.y + 2),
+            ImVec2(origin.x + 7, origin.y + 7), color, 1.0f);
+        draw->AddRectFilled(ImVec2(origin.x, origin.y + 5),
+            ImVec2(origin.x + 16, origin.y + 14), color, 1.0f);
+        break;
+    case TaskbarIcon::TaskManager:
+        // Three bars inside a frame represent process statistics.
+        draw->AddRect(origin, ImVec2(origin.x + 16, origin.y + 16), color, 1.0f);
+        draw->AddRectFilled(ImVec2(origin.x + 3, origin.y + 8),
+            ImVec2(origin.x + 5, origin.y + 13), color);
+        draw->AddRectFilled(ImVec2(origin.x + 7, origin.y + 4),
+            ImVec2(origin.x + 9, origin.y + 13), color);
+        draw->AddRectFilled(ImVec2(origin.x + 11, origin.y + 6),
+            ImVec2(origin.x + 13, origin.y + 13), color);
+        break;
+    }
+
+    // A short underline marks an open window, including when it is behind another.
+    if (isOpen)
+    {
+        ImVec2 buttonMin = ImGui::GetItemRectMin();
+        ImVec2 buttonMax = ImGui::GetItemRectMax();
+        float centerX = (buttonMin.x + buttonMax.x) * 0.5f;
+        draw->AddRectFilled(ImVec2(centerX - 12.0f, buttonMax.y + 2.0f),
+            ImVec2(centerX + 12.0f, buttonMax.y + 5.0f),
+            IM_COL32(80, 210, 255, 255), 1.5f);
+    }
+
+    return clicked;
+}
+
 // Draw desktop taskbar
 static void drawTaskbar()
 {
@@ -123,7 +190,7 @@ static void drawTaskbar()
     if (ImGui::Begin("Taskbar", nullptr, flags))
     {
         // Button 1: Opens Applications/Gallery Window
-        if (ImGui::Button("Apps", ImVec2(70, 36)))
+        if (drawTaskbarButton("Apps", TaskbarIcon::Apps, showGallery))
         {
             showGallery = !showGallery;
         }
@@ -131,7 +198,7 @@ static void drawTaskbar()
         ImGui::SameLine();
         
         // Button 2: Opens File Explorer
-        if (ImGui::Button("Files", ImVec2(70, 36)))
+        if (drawTaskbarButton("Files", TaskbarIcon::Files, showFiles))
         {
             showFiles = !showFiles;
         }
@@ -139,7 +206,7 @@ static void drawTaskbar()
         ImGui::SameLine();
 
         // Button 3: Opens Task Manager
-        if (ImGui::Button("Task Manager", ImVec2(110, 36)))
+        if (drawTaskbarButton("Task Manager", TaskbarIcon::TaskManager, showTaskManager))
         {
             showTaskManager = !showTaskManager;
         }

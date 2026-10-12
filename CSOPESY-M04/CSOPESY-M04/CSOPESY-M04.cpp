@@ -129,7 +129,7 @@ static void setAppWindowLayout(ImVec2 position, ImVec2 desiredSize)
     ImGui::SetNextWindowSize(size, ImGuiCond_Once);
 }
 
-enum class TaskbarIcon { Apps, Files, TaskManager };
+enum class TaskbarIcon { Apps, Files, TaskManager, Power };
 
 // Keep normal ImGui button behavior, with a small drawn icon beside the label.
 static bool drawTaskbarButton(const char* label, TaskbarIcon icon, bool isOpen)
@@ -180,6 +180,14 @@ static bool drawTaskbarButton(const char* label, TaskbarIcon icon, bool isOpen)
         draw->AddRectFilled(ImVec2(origin.x + 11, origin.y + 6),
             ImVec2(origin.x + 13, origin.y + 13), color);
         break;
+    case TaskbarIcon::Power:
+        // An open ring and vertical stroke form the standard power symbol.
+        draw->PathArcTo(ImVec2(origin.x + 8, origin.y + 8), 7.0f,
+            -0.7853982f, 3.9269908f, 24);
+        draw->PathStroke(color, 0, 2.0f);
+        draw->AddLine(ImVec2(origin.x + 8, origin.y),
+            ImVec2(origin.x + 8, origin.y + 8), color, 2.0f);
+        break;
     }
 
     // A short underline marks an open window, including when it is behind another.
@@ -193,7 +201,12 @@ static bool drawTaskbarButton(const char* label, TaskbarIcon icon, bool isOpen)
             IM_COL32(80, 210, 255, 255), 1.5f);
     }
 
-    if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
+    if (icon == TaskbarIcon::Power)
+    {
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
+            ImGui::SetTooltip("Shut Down");
+    }
+    else if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
     {
         const char* description = icon == TaskbarIcon::Apps ? "Applications and shortcuts" :
             icon == TaskbarIcon::Files ? "Sample folders in File Explorer" :
@@ -262,7 +275,8 @@ static void drawTaskbar()
         }
 
         // Move the PWR button to the bottom-right
-        float powerButtonWidth = 55.0f;
+        // Match the helper's padding, icon, gap, and label width.
+        float powerButtonWidth = 20.0f + 16.0f + 8.0f + ImGui::CalcTextSize("PWR").x;
         ImGui::SameLine();
         ImGui::SetCursorPosX(
             ImGui::GetWindowWidth() -
@@ -270,12 +284,10 @@ static void drawTaskbar()
             sidePadding * 2.0f
         );
 
-        if (ImGui::Button("PWR", ImVec2(powerButtonWidth, 36)))
+        if (drawTaskbarButton("PWR", TaskbarIcon::Power, false))
         {
             running = false;
         }
-        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayShort))
-            ImGui::SetTooltip("Shut down the desktop emulator.");
     }
 
     ImGui::End();
@@ -310,7 +322,7 @@ static void drawFileWindow()
 
 		// dimmed text to indicate that this is a placeholder for the file explorer interface
         ImGui::TextDisabled(
-            "Placeholder file explorer - sample interface."
+            "Sample interface."
         );
     }
 
@@ -345,7 +357,7 @@ static void drawGalleryWindow()
 
         ImGui::Spacing();
 
-        ImGui::TextDisabled("System status: Running");
+        ImGui::TextDisabled("System status: Running!");
     }
 
     ImGui::End();
@@ -414,7 +426,7 @@ static void drawTaskManager()
         ImGui::Spacing();
 
         ImGui::TextDisabled(
-            "Sample values only; not actual system statistics."
+            "Sample values :>"
         );
     }
 
